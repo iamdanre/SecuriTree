@@ -20,6 +20,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = require("./app/models");
 const Role = db.role;
 const User = db.user;
+const AccessRule = db.access_rule;
+const Area = db.area;
+const Door = db.door;
 
 // connect to MongoDB
 db.mongoose
@@ -29,6 +32,7 @@ db.mongoose
   })
   .then(() => {
     console.log("Connected to database.");
+    // if "setup" is passed in as program argument
     if (process.argv[2] === "setup") {
       setupDb();
     }
@@ -81,7 +85,7 @@ function setupDb() {
         console.log("Added 'user' to roles collection");
       });
     }
-    else{
+    else {
       console.log("There are already roles in the database");
     }
   }).then(() => {
@@ -94,7 +98,6 @@ function setupDb() {
       User.estimatedDocumentCount((err, count) => {
         if (!err && count === 0) {
           userData.registered_users.forEach((element) => {
-            //console.log(element)
             let user = new User({
               username: element.username,
               first_name: element.first_name,
@@ -103,13 +106,69 @@ function setupDb() {
               password: bcrypt.hashSync(element.password, 8),
             });
             user.save();
-            console.log("Registered user: ", element.username);
+            console.log("Registered user: ", element.username, " with role 'admin'");
           });
         }
-        else{
+        else {
           console.log("There are already users in the database");
         }
-      })
+      });
     });
   });
+  // add areas
+  const areas = systemData.system_data.areas;
+  Area.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      areas.forEach((element) => {
+        let area = new Area({
+          id: element.id,
+          name: element.name,
+          parent_area: element.parent_area,
+          child_area_ids: element.child_area_ids
+        });
+        area.save();
+        console.log("Added area: ", element.name);
+      });
+    }
+    else {
+      console.log("There are already areas in the database");
+    }
+  })
+  // add doors
+  const doors = systemData.system_data.doors;
+  Door.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      doors.forEach((element) => {
+        let door = new Door({
+          id: element.id,
+          name: element.name,
+          parent_area: element.parent_area,
+          status: element.status
+        });
+        door.save();
+        console.log("Added door: ", element.name);
+      });
+    }
+    else {
+      console.log("There are already doors in the database");
+    }
+  })
+  // add access rules
+  const accessRules = systemData.system_data.access_rules;
+  AccessRule.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      accessRules.forEach((element) => {
+        let access_rule = new AccessRule({
+          id: element.id,
+          name: element.name,
+          doors: element.doors
+        });
+        access_rule.save();
+        console.log("Added access rule: ", element.name);
+      });
+    }
+    else {
+      console.log("There are already access rules in the database");
+    }
+  })
 }
