@@ -50,6 +50,8 @@ app.get("/", (req, res) => {
 // routes
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
+require("./app/routes/access_rule.routes")(app);
+require("./app/routes/area.routes")(app);
 
 // setting port to listen for requests
 const PORT = process.env.PORT || 8080;
@@ -121,7 +123,7 @@ function setupDb() {
     if (!err && count === 0) {
       areas.forEach((element) => {
         let area = new Area({
-          id: element.id,
+          _id: element.id,
           name: element.name,
           parent_area: element.parent_area,
           child_area_ids: element.child_area_ids
@@ -140,7 +142,7 @@ function setupDb() {
     if (!err && count === 0) {
       doors.forEach((element) => {
         let door = new Door({
-          id: element.id,
+          _id: element.id,
           name: element.name,
           parent_area: element.parent_area,
           status: element.status
@@ -159,7 +161,7 @@ function setupDb() {
     if (!err && count === 0) {
       accessRules.forEach((element) => {
         let access_rule = new AccessRule({
-          id: element.id,
+          _id: element.id,
           name: element.name,
           doors: element.doors
         });

@@ -1,7 +1,6 @@
-const { authJwt } = require("../middleware");
-const controller = require("../controllers/user.controller");
-
 module.exports = function (app) {
+  const { authJwt } = require("../middleware");
+  const doors = require("../controllers/door.controller.js");
   app.use(function (req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",
@@ -10,11 +9,12 @@ module.exports = function (app) {
     next();
   });
 
-  app.get("/api/all", controller.allAccess);
   app.get(
-    "/api/admin",
+    "/api/doors",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
+    doors.findAll
   );
-  app.get("/api/user", [authJwt.verifyToken], controller.userBoard);
+
+  // todo: put route for doors/_id here (get)
+  // todo: put route for update here (fetch/put)
 };

@@ -1,7 +1,6 @@
-const { authJwt } = require("../middleware");
-const controller = require("../controllers/user.controller");
-
 module.exports = function (app) {
+  const { authJwt } = require("../middleware");
+  const accessrules = require("../controllers/accessrule.controller.js");
   app.use(function (req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",
@@ -10,11 +9,9 @@ module.exports = function (app) {
     next();
   });
 
-  app.get("/api/all", controller.allAccess);
   app.get(
-    "/api/admin",
+    "/api/accessrules",
     [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
+    accessrules.findAll
   );
-  app.get("/api/user", [authJwt.verifyToken], controller.userBoard);
 };
