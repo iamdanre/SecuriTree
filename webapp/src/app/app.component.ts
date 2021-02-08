@@ -10,8 +10,7 @@ export class AppComponent implements OnInit {
   title = "SecuriTree"
   private roles: string[] = [];
   isLoggedIn = false;
-  showAdminBoard = false;
-  showModeratorBoard = false;
+  showDoorBoard = false;
   username?: string;
 
   constructor(private tokenStorageService: TokenStorageService) { }
@@ -23,7 +22,7 @@ export class AppComponent implements OnInit {
       const user = this.tokenStorageService.getUser();
       this.roles = user.roles;
 
-      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+      this.showDoorBoard = this.roles.includes('ROLE_ADMIN');
 
       this.username = user.username;
     }

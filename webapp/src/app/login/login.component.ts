@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,7 +12,7 @@ export class LoginComponent implements OnInit {
     password: null
   };
   isLoggedIn = false;
-  isLoginFailed = false;
+  loginFailed = false;
   errorMessage = '';
   roles: string[] = [];
 
@@ -34,19 +33,19 @@ export class LoginComponent implements OnInit {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
 
-        this.isLoginFailed = false;
+        this.loginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
-        this.reloadPage();
+        this.redirect();
       },
       err => {
         this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
+        this.loginFailed = true;
       }
     );
   }
 
-  reloadPage(): void {
-    window.location.reload();
+  redirect(): void {
+    window.location.href = '/';
   }
 }

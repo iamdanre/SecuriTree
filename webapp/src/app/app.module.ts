@@ -14,13 +14,17 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { TreeComponent } from './tree/tree.component';
+import { ManageDoorsComponent } from './manage-doors/manage-doors.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
     BoardAdminComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    TreeComponent,
+    ManageDoorsComponent,
   ],
   imports: [
     BrowserModule,

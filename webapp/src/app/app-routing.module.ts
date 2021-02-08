@@ -3,14 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { BoardUserComponent } from './board-user/board-user.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
+import { TreeComponent } from './tree/tree.component';
+import { ManageDoorsComponent } from './manage-doors/manage-doors.component';
 
 const routes: Routes = [
 { path: 'home', component: HomeComponent },
 { path: 'login', component: LoginComponent },
-{ path: 'user', component: BoardUserComponent },
-{ path: 'admin', component: BoardAdminComponent },
+{ path: 'tree', component: TreeComponent },
+{ path: 'doors', component: ManageDoorsComponent },
 { path: '', redirectTo: 'home', pathMatch: 'full' }];
 
 @NgModule({

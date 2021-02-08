@@ -52,11 +52,12 @@ require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/access_rule.routes")(app);
 require("./app/routes/area.routes")(app);
+require("./app/routes/door.routes")(app);
 
 // setting port to listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`API server is running on port ${PORT}.`);
+  console.log(`SecuriTree API server is running on port ${PORT}.`);
 });
 
 // initial setup, populates the database with files from setup directory if program argument 'setup' is passed in
