@@ -7,40 +7,29 @@ import { AreaService } from '../_services/area.service'
 import { DoorService } from '../_services/door.service'
 import { AccessruleService } from '../_services/accessrule.service'
 
-
+// interfaces
 interface AreaNode {
+  _id: string;
   name: string;
   children?: AreaNode[];
+  doors?: Door[];
 }
-
 interface ExampleFlatNode {
   expandable: boolean;
   name: string;
   level: number;
 }
-
-const TREE_DATA: AreaNode[] = [
-  {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [
-          { name: 'Broccoli' },
-          { name: 'Brussels sprouts' },
-        ]
-      }, {
-        name: 'Orange',
-        children: [
-          { name: 'Pumpkins' },
-          { name: 'Carrots' },
-        ]
-      },
-    ]
-  },
-];
-
-
+interface Door {
+  _id: string;
+  name: string;
+  parentArea_id: string;
+  status: string;
+}
+interface AccessRule {
+  _id: string;
+  name: string;
+  doors:[string];
+}
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
@@ -65,13 +54,19 @@ export class TreeComponent implements OnInit {
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   constructor(private areaService: AreaService, private doorService: DoorService, private accessRuleService: AccessruleService) {
-    this.areaService.getAll().subscribe((data) => {
-      console.log('areas');
-      console.log(data);
-      let root = data.find(function (item: any) {
+    // get areas from API server
+    this.areaService.getAll().subscribe(async data => {
+      // get doors and access rules from API server synchronously, initial empty data preserves type checking
+      let doors:[Door] = [{_id:'',name:'',parentArea_id:'', status:''}]
+      await this.doorService.getAll().toPromise().then( data =>{
+        doors = data;
+      });
+     
+      // get root area
+      let root = data.find((item: any) => {
         return item.parent_area == null;
       });
-
+      // this converts the returned array of areas into a nested object using a fast-lookup dictionary
       var dictionary: any = {};
       for (var i: number = 0; i < data.length; i++) {
         dictionary[data[i]._id] = data[i];
@@ -86,9 +81,18 @@ export class TreeComponent implements OnInit {
             parent.children.push(data[i]);
           }
         }
+        data[i].doors = doors.filter((item: any) => {
+          return item.parent_area === data[i]._id;
+        })
       }
+      //assign nested object to dataSource so Material can handle constructing the hierarchy
       let rootArea: [AreaNode] = [root];
       this.dataSource.data = rootArea;
+      // expand the tree
+      this.treeControl.expand(this.treeControl.dataNodes[0]);
+      this.treeControl.expandAll();
+
+      console.log(root);
     });
 
   }
