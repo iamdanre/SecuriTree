@@ -11,6 +11,6 @@ export class AccessruleService {
 
   constructor(private http: HttpClient) { }
   getAll(): Observable<any> {
-  return this.http.get(API_URL+'accessrules');
+    return this.http.get(API_URL + 'accessrules');
   }
 }

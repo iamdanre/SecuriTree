@@ -11,6 +11,6 @@ export class AreaService {
 
   constructor(private http: HttpClient) { }
   getAll(): Observable<any> {
-  return this.http.get(API_URL+'areas');
+    return this.http.get(API_URL + 'areas');
   }
 }

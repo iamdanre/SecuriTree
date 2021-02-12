@@ -13,5 +13,5 @@ export class DoorService {
   getAll(): Observable<any> {
     return this.http.get(API_URL + 'doors');
   }
- // lock()
+  // lock()
 }
