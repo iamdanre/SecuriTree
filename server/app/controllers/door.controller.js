@@ -13,5 +13,24 @@ exports.findAll = (req, res) => {
       });
     });
 };
-
-// todo: put controllers for findOne and findOneAndUpdate here
+exports.update = (req, res) => {
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Update data can't be empty"
+    });
+  }
+  const _id = req.params.id;
+  Door.findByIdAndUpdate(_id, req.body, { useFindAndModify: false })
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update door [id = ${id}`
+        });
+      } else res.send({ message: "Door updated successfully" });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating door [id = " + id + "]"
+      });
+    });
+};

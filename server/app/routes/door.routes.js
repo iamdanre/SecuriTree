@@ -15,6 +15,9 @@ module.exports = function (app) {
     doors.findAll
   );
 
-  // todo: put route for doors/_id here (get)
-  // todo: put route for update here (fetch/put)
+  app.put(
+    "/api/door/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    doors.update
+  );
 };

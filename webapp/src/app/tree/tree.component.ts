@@ -49,12 +49,13 @@ export class TreeComponent implements OnInit {
     };
   }
 
+  // tree construction functions
   treeControl = new FlatTreeControl<any>(node => node.level, node => node.expandable);
   treeFlattener = new MatTreeFlattener(this._transformer, node => node.level, node => node.expandable, node => node.children);
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   hasChild = (_: number, node: FlatNode) => node.expandable;
 
-  // initial state for door expansion panels
+  // initial state for door and access rule expansion panels
   panelOpenState = false;
 
   constructor(private areaService: AreaService, private doorService: DoorService, private accessRuleService: AccessruleService, private tokenStorageService: TokenStorageService) {
@@ -113,5 +114,17 @@ export class TreeComponent implements OnInit {
   ngOnInit(): void {
     // to prevent unauthorized access
     this.isLoggedIn = !!this.tokenStorageService.getToken();
+  }
+  unlock(id: string): void {
+    this.doorService.unlock(id).then(() => {
+      window.location.reload();
+      window.alert("Door Unlocked.\nRefreshing...");
+    });
+  }
+  lock(id: string): void {
+    this.doorService.lock(id).then(() => {
+      window.location.reload();
+      window.alert("Door Locked.\nRefreshing...");
+    });
   }
 }

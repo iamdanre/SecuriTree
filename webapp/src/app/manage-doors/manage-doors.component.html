@@ -1,5 +1,23 @@
 <div *ngIf="this.isLoggedIn">
-
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false" [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon fontSet="material-icons-outlined">sensor_door</mat-icon>Doors:
+            </mat-panel-title>
+            <mat-panel-description>
+                {{panelOpenState ? 'Hide' : 'Show'}} Doors
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-card *ngFor="let door of this.doors; let isFirst = first">
+            <mat-icon *ngIf=" door.status==='open' ">lock_open</mat-icon>
+            <mat-icon *ngIf=" door.status==='closed' ">lock</mat-icon>
+            {{door.name}} &nbsp; [ id : {{door._id}} ]
+            <button class="lockbutton" *ngIf=" door.status==='open' " (click)="this.lock(door._id)" mat-stroked-button
+                color="warn">Lock</button>
+            <button class="lockbutton" *ngIf=" door.status==='closed' " (click)="this.unlock(door._id)"
+                mat-stroked-button color="accent">Unlock</button>
+        </mat-card>
+    </mat-expansion-panel>
 </div>
 
 <div *ngIf="!this.isLoggedIn">

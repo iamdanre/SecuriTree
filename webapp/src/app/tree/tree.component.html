@@ -29,8 +29,10 @@
           <mat-icon *ngIf=" door.status==='closed' ">lock</mat-icon>
           {{door.name}}
           &nbsp;
-          <button class="lockbutton" *ngIf=" door.status==='open' " mat-stroked-button color="warn">Lock</button>
-          <button class="lockbutton" *ngIf=" door.status==='closed' " mat-stroked-button color="accent">Unlock</button>
+          <button class="lockbutton" *ngIf=" door.status==='open' " (click)="this.lock(door._id)" mat-stroked-button
+            color="warn">Lock</button>
+          <button class="lockbutton" *ngIf=" door.status==='closed' " (click)="this.unlock(door._id)" mat-stroked-button
+            color="accent">Unlock</button>
         </mat-card>
       </mat-expansion-panel>
       &nbsp;&nbsp;
@@ -75,8 +77,10 @@
           <mat-icon *ngIf=" door.status==='closed' ">lock</mat-icon>
           {{door.name}}
           &nbsp;
-          <button class="lockbutton" *ngIf=" door.status==='open' " mat-stroked-button color="warn">Lock</button>
-          <button class="lockbutton" *ngIf=" door.status==='closed' " mat-stroked-button color="accent">Unlock</button>
+          <button class="lockbutton" *ngIf=" door.status==='open' " (click)="this.lock(door._id)" mat-stroked-button
+            color="warn">Lock</button>
+          <button class="lockbutton" *ngIf=" door.status==='closed' " (click)="this.unlock(door._id)" mat-stroked-button
+            color="accent">Unlock</button>
         </mat-card>
       </mat-expansion-panel>
       &nbsp;&nbsp;
