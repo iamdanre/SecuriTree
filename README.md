@@ -69,7 +69,7 @@ Download and install Node.js for your operating system [here](https://nodejs.org
 
 ### Installation
 
-1. Open a new Terminal window. If you're using Windows, open a new Node.js Command Prompt Window, it comes bundles with the Windows installer.
+1. Open a new Terminal window. If you're using Windows, open a new Node.js Command Prompt Window, it comes bundled with the Windows installer.
 
 2. Clone or download the repo and navigate to the project folder:
    ```sh
@@ -89,7 +89,7 @@ Download and install Node.js for your operating system [here](https://nodejs.org
    ```sh
    node server.js
    ```
-4. Web App: For simplicity the Angular application has been compiled using the "ng build --prod" command. Open a separate Terminal/PowerShell windows and navigate to:<br/>
+4. Web App: For simplicity the Angular application has been compiled using the "ng build --prod" command. Open a separate Terminal/Node,js Command Prompt window and navigate to:<br/>
    {project-root-directory}/webapp/webserver
    <br/>
    Once in the directory the command:
