@@ -69,7 +69,7 @@ Download and install Node.js for your operating system [here](https://nodejs.org
 
 ### Installation
 
-1. Open a new Terminal/PowerShell window.
+1. Open a new Terminal window. If you're using Windows, open a new Node.js Command Prompt Window, it comes bundles with the Windows installer.
 
 2. Clone or download the repo and navigate to the project folder:
    ```sh
