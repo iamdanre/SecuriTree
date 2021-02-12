@@ -11,6 +11,7 @@ export class DoorService {
 
   constructor(private http: HttpClient) { }
   getAll(): Observable<any> {
-  return this.http.get(API_URL+'doors');
+    return this.http.get(API_URL + 'doors');
   }
+ // lock()
 }

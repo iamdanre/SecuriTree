@@ -26,6 +26,8 @@ export class AppComponent implements OnInit {
 
       this.username = user.username;
     }
+
+    console.log("do no harm ( ´◔  ︿ ◔')");
   }
 
   logout(): void {

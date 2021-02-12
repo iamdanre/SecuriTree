@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { TokenStorageService } from '../_services/token-storage.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-
 import { AreaService } from '../_services/area.service'
 import { DoorService } from '../_services/door.service'
 import { AccessruleService } from '../_services/accessrule.service'
@@ -13,11 +12,14 @@ interface AreaNode {
   name: string;
   children?: AreaNode[];
   doors?: Door[];
+  accessRules?: AccessRule[];
 }
-interface ExampleFlatNode {
+interface FlatNode {
   expandable: boolean;
   name: string;
   level: number;
+  doors?: Door[];
+  accessRules?: AccessRule[];
 }
 interface Door {
   _id: string;
@@ -28,7 +30,7 @@ interface Door {
 interface AccessRule {
   _id: string;
   name: string;
-  doors:[string];
+  doors?: Door[];
 }
 @Component({
   selector: 'app-tree',
@@ -36,32 +38,37 @@ interface AccessRule {
   styleUrls: ['./tree.component.scss']
 })
 export class TreeComponent implements OnInit {
-
+  isLoggedIn = false;
   private _transformer = (node: AreaNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
+      doors: node.doors,
+      accessRules: node.accessRules
     };
   }
 
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
-    node => node.level, node => node.expandable);
-
-  treeFlattener = new MatTreeFlattener(
-    this._transformer, node => node.level, node => node.expandable, node => node.children);
-
+  treeControl = new FlatTreeControl<any>(node => node.level, node => node.expandable);
+  treeFlattener = new MatTreeFlattener(this._transformer, node => node.level, node => node.expandable, node => node.children);
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  hasChild = (_: number, node: FlatNode) => node.expandable;
 
-  constructor(private areaService: AreaService, private doorService: DoorService, private accessRuleService: AccessruleService) {
+  // initial state for door expansion panels
+  panelOpenState = false;
+
+  constructor(private areaService: AreaService, private doorService: DoorService, private accessRuleService: AccessruleService, private tokenStorageService: TokenStorageService) {
     // get areas from API server
     this.areaService.getAll().subscribe(async data => {
       // get doors and access rules from API server synchronously, initial empty data preserves type checking
-      let doors:[Door] = [{_id:'',name:'',parentArea_id:'', status:''}]
-      await this.doorService.getAll().toPromise().then( data =>{
+      let doors: [Door] = [{ _id: '', name: '', parentArea_id: '', status: '' }]
+      await this.doorService.getAll().toPromise().then(data => {
         doors = data;
       });
-     
+      let accessRules: [AccessRule] = [{ _id: '', name: '', doors: [{ _id: '', name: '', parentArea_id: '', status: '' }] }]
+      await this.accessRuleService.getAll().toPromise().then(data => {
+        accessRules = data;
+      });
       // get root area
       let root = data.find((item: any) => {
         return item.parent_area == null;
@@ -83,37 +90,28 @@ export class TreeComponent implements OnInit {
         }
         data[i].doors = doors.filter((item: any) => {
           return item.parent_area === data[i]._id;
-        })
+        });
+        data[i].accessRules = [];
+        data[i].doors.forEach((door: any) => {
+          accessRules.forEach((ar: any) => {
+            if (ar.doors.includes(door._id)) {
+              if (!data[i].accessRules.includes(ar)) {
+                data[i].accessRules.push(ar);
+              }
+            }
+          });
+        });
       }
       //assign nested object to dataSource so Material can handle constructing the hierarchy
       let rootArea: [AreaNode] = [root];
       this.dataSource.data = rootArea;
-      // expand the tree
+      // expand the root node
       this.treeControl.expand(this.treeControl.dataNodes[0]);
-      this.treeControl.expandAll();
-
-      console.log(root);
     });
-
   }
-
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
-
 
   ngOnInit(): void {
-    this.areaService.getAll().subscribe((data) => {
-      console.log('areas');
-      console.log(data);
-    });
-    this.doorService.getAll().subscribe((data) => {
-
-      console.log('doors');
-      console.log(data);
-    })
-    this.accessRuleService.getAll().subscribe((data) => {
-      console.log('accessrules');
-      console.log(data);
-    })
+    // to prevent unauthorized access
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
   }
-
 }

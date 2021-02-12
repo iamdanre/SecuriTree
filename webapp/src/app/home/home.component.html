@@ -1,5 +1,16 @@
 <div class="container">
-    <header class="jumbotron">
-      <p>{{ content }}</p>
-    </header>
-  </div>
+  <header class="jumbotron">
+    <div *ngIf="!this.isLoggedIn">
+      <h1>Welcome to SecuriTree!</h1>
+      <h2>Please <a routerLink="../login"><button mat-raised-button color="accent">Log in</button></a> to continue.</h2>
+      <h2>(◕ܫ◕)</h2>
+    </div>
+    <div *ngIf="this.isLoggedIn">
+      <h1>Welcome {{username}}!</h1>
+      <h2><a routerLink="../tree"><button mat-raised-button color="primary">View the Security Entity Hierarchy Tree<mat-icon
+        fontSet="material-icons-outlined">park</mat-icon></button></a></h2>
+      <h2><a routerLink="../doors"><button mat-raised-button color="primary">Manage Doors<mat-icon
+        fontSet="material-icons-outlined">sensor_door</mat-icon></button></a></h2>
+    </div>
+  </header>
+</div>

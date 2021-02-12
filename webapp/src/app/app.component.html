@@ -19,16 +19,16 @@
 
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
       <li class="nav-item">
-        <a href="/login" class="nav-link" routerLink="login">Log In</a>
+        <a href="/login" class="nav-link" routerLink="login"><button mat-raised-button color="accent">Log in</button></a>
       </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
       <li class="nav-item">
-        <a href="#" class="nav-link" routerLink="profile">{{ username }}</a>
+        <a class="nav-link"><button mat-stroked-button disabled>{{ username }}</button></a>
       </li>
       <li class="nav-item">
-        <a href class="nav-link" (click)="logout()">Log Out</a>
+        <a href class="nav-link" (click)="logout()"><button mat-raised-button color="warn">Log out</button></a>
       </li>
     </ul>
   </nav>

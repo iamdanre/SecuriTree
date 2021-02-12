@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-manage-doors',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./manage-doors.component.scss']
 })
 export class ManageDoorsComponent implements OnInit {
-
-  constructor() { }
+  isLoggedIn = false;
+  constructor(private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
+    // to prevent unauthorized access
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
   }
 
 }

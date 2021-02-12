@@ -16,6 +16,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TreeComponent } from './tree/tree.component';
 import { ManageDoorsComponent } from './manage-doors/manage-doors.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { ManageDoorsComponent } from './manage-doors/manage-doors.component';
     BoardUserComponent,
     TreeComponent,
     ManageDoorsComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
