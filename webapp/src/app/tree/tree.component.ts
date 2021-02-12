@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { AreaService } from '../_services/area.service'
-import { DoorService } from '../_services/door.service'
-import { AccessruleService } from '../_services/accessrule.service'
+import { AreaService } from '../_services/area.service';
+import { DoorService } from '../_services/door.service';
+import { AccessruleService } from '../_services/accessrule.service';
 
 // interfaces
 interface AreaNode {

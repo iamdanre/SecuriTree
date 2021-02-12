@@ -19,7 +19,7 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
-        <li><a href="#architecture-diagram">Architecture Diagram</a></li>
+        <li><a href="#architectural-diagram">Architecture Diagram</a></li>
       </ul>
     </li>
     <li>
@@ -52,8 +52,9 @@ SecuriTree is an access control management application that provides a visual tr
 - [Angular Material](https://material.angular.io)
 - [Bootstrap](https://getbootstrap.com)
 
-### Architecture Diagram
+### Architectural Diagram
 
+<img src="img/diagram.jpeg" alt="demo" width="auto" height="auto">
 <!-- GETTING STARTED -->
 
 ## Getting Started
